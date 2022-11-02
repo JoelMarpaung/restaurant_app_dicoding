@@ -31,11 +31,11 @@ class Restaurant {
       );
 }
 
-List<Restaurant> parseFoods(String? json) {
+List<Restaurant> parseRestaurants(String? json) {
   if (json == null) {
     return [];
   }
-
-  final List parsed = jsonDecode(json);
+  var data = jsonDecode(json);
+  final List parsed = data['restaurants'] as List;
   return parsed.map((json) => Restaurant.fromJson(json)).toList();
 }
