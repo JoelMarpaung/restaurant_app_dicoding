@@ -30,7 +30,7 @@ final myTextTheme = TextTheme(
   button: GoogleFonts.mavenPro(
       fontSize: 15, fontWeight: FontWeight.w500, letterSpacing: 1.25),
   caption: GoogleFonts.mavenPro(
-      fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+      fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.4, color: Colors.white),
   overline: GoogleFonts.mavenPro(
       fontSize: 11, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 );
