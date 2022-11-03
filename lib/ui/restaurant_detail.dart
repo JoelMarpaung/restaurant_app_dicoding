@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_dicoding/constants/constants.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/list_menu.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -56,27 +58,12 @@ class RestaurantDetailPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.location_pin),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    restaurant.city,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(Icons.star_rate),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    restaurant.rating.toString(),
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2,
-                                  ),
-                                ],
+                              IconDescription(
+                                  icon: const Icon(Icons.location_pin),
+                                  description: restaurant.city),
+                              IconDescription(
+                                icon: const Icon(Icons.star_rate),
+                                description: restaurant.rating.toString(),
                               ),
                             ],
                           ),
@@ -90,87 +77,9 @@ class RestaurantDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              foodsTitle,
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: restaurant.menus.foods
-                                  .map(
-                                    (item) => Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.blueGrey.shade700,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(5))),
-                                      child: Text(
-                                        item.name,
-                                        style:
-                                            Theme.of(context).textTheme.caption,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  ListMenu(title: foodsTitle, items: restaurant.menus.foods),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              drinksTitle,
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: restaurant.menus.drinks
-                                  .map(
-                                    (item) => Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.blueGrey.shade700,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(5))),
-                                      child: Text(
-                                        item.name,
-                                        style:
-                                            Theme.of(context).textTheme.caption,
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  ListMenu(title: drinksTitle, items: restaurant.menus.drinks),
                 ],
               ),
             ),

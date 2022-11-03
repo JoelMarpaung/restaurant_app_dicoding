@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restaurant_app_dicoding/constants/constants.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class RestaurantListPage extends StatelessWidget {
   static const routeName = '/restaurant_list';
@@ -18,27 +19,7 @@ class RestaurantListPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  padding: const EdgeInsets.all(20),
-                  decoration: const BoxDecoration(color: Colors.blueGrey),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        mainTitle,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        secondaryTitle,
-                        style: Theme.of(context).textTheme.headline6,
-                      )
-                    ],
-                  ),
-                ),
+                _header(context),
                 FutureBuilder<String>(
                   future: DefaultAssetBundle.of(context)
                       .loadString('assets/local_restaurant.json'),
@@ -60,6 +41,30 @@ class RestaurantListPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _header(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 150,
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(color: Colors.blueGrey),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            mainTitle,
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            secondaryTitle,
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
       ),
     );
   }
@@ -95,25 +100,12 @@ class RestaurantListPage extends StatelessWidget {
                     restaurant.name,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_pin),
-                      const SizedBox(width: 5),
-                      Text(
-                        restaurant.city,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.star_rate),
-                      const SizedBox(width: 5),
-                      Text(
-                        restaurant.rating.toString(),
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
+                  IconDescription(
+                      icon: const Icon(Icons.location_pin),
+                      description: restaurant.city),
+                  IconDescription(
+                    icon: const Icon(Icons.star_rate),
+                    description: restaurant.rating.toString(),
                   ),
                 ],
               ),
