@@ -24,15 +24,18 @@ class RestaurantDetailPage extends StatelessWidget {
                   pinned: true,
                   expandedHeight: 300,
                   flexibleSpace: FlexibleSpaceBar(
-                    background: CachedNetworkImage(
-                      width: 100,
-                      imageUrl: restaurant.pictureId,
-                      placeholder: (context, url) =>
-                          const LinearProgressIndicator(
-                              backgroundColor: Colors.white,
-                              color: Colors.grey),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                    background: Hero(
+                      tag: restaurant.pictureId,
+                      child: CachedNetworkImage(
+                        width: 100,
+                        imageUrl: restaurant.pictureId,
+                        placeholder: (context, url) =>
+                            const LinearProgressIndicator(
+                                backgroundColor: Colors.white,
+                                color: Colors.grey),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                     title: Text(restaurant.name,
                         style: Theme.of(context).textTheme.headline6),

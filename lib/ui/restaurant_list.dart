@@ -76,12 +76,15 @@ class RestaurantListPage extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Row(
             children: [
-              CachedNetworkImage(
-                width: 100,
-                imageUrl: restaurant.pictureId,
-                placeholder: (context, url) => const LinearProgressIndicator(
-                    backgroundColor: Colors.white, color: Colors.grey),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              Hero(
+                tag: restaurant.pictureId,
+                child: CachedNetworkImage(
+                  width: 100,
+                  imageUrl: restaurant.pictureId,
+                  placeholder: (context, url) => const LinearProgressIndicator(
+                      backgroundColor: Colors.white, color: Colors.grey),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
               const SizedBox(width: 20),
               Column(
