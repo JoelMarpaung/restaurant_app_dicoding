@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:restaurant_app_dicoding/constants/constants.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
@@ -24,17 +25,35 @@ class RestaurantListPage extends StatelessWidget {
                   future: DefaultAssetBundle.of(context)
                       .loadString('assets/local_restaurant.json'),
                   builder: (context, snapshot) {
-                    final List<Restaurant> restaurants =
-                        parseRestaurants(snapshot.data);
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: restaurants.length,
-                      itemBuilder: (context, index) {
-                        return _buildRestaurantItem(
-                            context, restaurants[index]);
-                      },
-                    );
+                    if (snapshot.hasData) {
+                      final List<Restaurant> restaurants =
+                          parseRestaurants(snapshot.data);
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: restaurants.length,
+                        itemBuilder: (context, index) {
+                          return _buildRestaurantItem(
+                              context, restaurants[index]);
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return AlertDialog(
+                        title: Text(
+                          "Error !!!",
+                          style: GoogleFonts.adventPro(
+                            textStyle: Theme.of(context).textTheme.headline3,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   },
                 ),
               ],
