@@ -39,8 +39,15 @@ class RestaurantDetailPage extends StatelessWidget {
                             const Icon(Icons.error),
                       ),
                     ),
-                    title: Text(restaurant.name,
-                        style: Theme.of(context).textTheme.headline6),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          restaurant.name,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ],
+                    ),
                     titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
                   ),
                 ),
