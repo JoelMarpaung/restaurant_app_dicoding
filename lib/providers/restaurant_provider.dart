@@ -10,7 +10,7 @@ class RestaurantProvider extends ChangeNotifier {
   final RestaurantApiService restaurantApiService;
 
   RestaurantProvider({required this.restaurantApiService}) {
-    _fetchAllRestaurants();
+      fetchRestaurants('');
   }
 
   late List<Restaurant> _listRestaurants;
@@ -23,11 +23,17 @@ class RestaurantProvider extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  Future<dynamic> _fetchAllRestaurants() async {
+  Future<dynamic> fetchRestaurants(String query) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final restaurants = await restaurantApiService.listRestaurants();
+      List<Restaurant> restaurants;
+      if(query == ''){
+        restaurants = await restaurantApiService.listRestaurants();
+      }else{
+        restaurants = await restaurantApiService.searchRestaurants(query!);
+      }
+
       if (restaurants.isEmpty) {
         _state = ResultState.noData;
         notifyListeners();
