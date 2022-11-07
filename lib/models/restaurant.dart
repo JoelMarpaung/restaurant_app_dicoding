@@ -33,12 +33,12 @@ class Restaurant {
     name: json["name"],
     description: json["description"],
     city: json["city"],
-    address: json["address"],
     pictureId: json["pictureId"],
     rating: json["rating"].toDouble(),
-    categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
-    menus: Menu.fromJson(json["menus"]),
-    customerReviews: List<CustomerReview>.from(json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+    address: json["address"],
+    categories: json["categories"] == null ? null : List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
+    menus: json["menus"] == null ? null : Menu.fromJson(json["menus"]),
+    customerReviews: json["customerReviews"] == null ? null : List<CustomerReview>.from(json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
   );
 
 }
