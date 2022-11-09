@@ -6,12 +6,10 @@ import '../apis/restaurant_api_service.dart';
 import '../enums/provider_enum.dart';
 import '../models/customer_review.dart';
 
-
-
 class ReviewProvider extends ChangeNotifier {
   final RestaurantApiService restaurantApiService;
 
-  ReviewProvider({required this.restaurantApiService}){
+  ReviewProvider({required this.restaurantApiService}) {
     stateReview = ResultState.noData;
   }
 
@@ -27,7 +25,8 @@ class ReviewProvider extends ChangeNotifier {
     try {
       stateReview = ResultState.loading;
       notifyListeners();
-      List<CustomerReview> reviews = await restaurantApiService.createReview(id, name, review);
+      List<CustomerReview> reviews =
+          await restaurantApiService.createReview(id, name, review);
 
       if (reviews.isEmpty) {
         stateReview = ResultState.noData;
@@ -49,7 +48,7 @@ class ReviewProvider extends ChangeNotifier {
     }
   }
 
-  void notifyConsumer(){
+  void notifyConsumer() {
     notifyListeners();
   }
 }

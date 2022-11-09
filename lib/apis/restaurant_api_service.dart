@@ -6,7 +6,6 @@ import '../models/restaurant.dart';
 import '../models/customer_review.dart';
 
 class RestaurantApiService {
-
   Future<List<Restaurant>> listRestaurants() async {
     final response = await http.get(Uri.parse(urlApi + urlListRestaurant));
     if (response.statusCode == 200) {
@@ -17,7 +16,8 @@ class RestaurantApiService {
   }
 
   Future<List<Restaurant>> searchRestaurants(String query) async {
-    final response = await http.get(Uri.parse(urlApi + urlSearchRestaurant + query));
+    final response =
+        await http.get(Uri.parse(urlApi + urlSearchRestaurant + query));
     if (response.statusCode == 200) {
       return parseRestaurants(response.body);
     } else {
@@ -26,7 +26,8 @@ class RestaurantApiService {
   }
 
   Future<Restaurant> detailRestaurant(String id) async {
-    final response = await http.get(Uri.parse(urlApi + urlDetailRestaurant + id));
+    final response =
+        await http.get(Uri.parse(urlApi + urlDetailRestaurant + id));
     if (response.statusCode == 200) {
       return Restaurant.fromJson(jsonDecode(response.body)['restaurant']);
     } else {
@@ -34,14 +35,15 @@ class RestaurantApiService {
     }
   }
 
-  Future<List<CustomerReview>> createReview(String id, String name, String review) async{
+  Future<List<CustomerReview>> createReview(
+      String id, String name, String review) async {
     final response = await http.post(
       Uri.parse(urlApi + urlReviewRestaurant),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, String>{
-        'id' : id,
+        'id': id,
         'name': name,
         'review': review,
       }),
@@ -52,5 +54,4 @@ class RestaurantApiService {
       throw Exception('Failed to create Review.');
     }
   }
-
 }

@@ -11,12 +11,11 @@ class RestaurantProvider extends ChangeNotifier {
   String? id;
 
   RestaurantProvider({required this.restaurantApiService, this.id}) {
-    if(id == null){
+    if (id == null) {
       fetchRestaurants('');
-    }else{
+    } else {
       detailRestaurant(id!);
     }
-
   }
 
   late List<Restaurant> _listRestaurants;
@@ -37,9 +36,9 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState.loading;
       notifyListeners();
       List<Restaurant> restaurants;
-      if(query == ''){
+      if (query == '') {
         restaurants = await restaurantApiService.listRestaurants();
-      }else{
+      } else {
         restaurants = await restaurantApiService.searchRestaurants(query!);
       }
 
@@ -82,8 +81,7 @@ class RestaurantProvider extends ChangeNotifier {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> No Connection found';
-    }
-    catch (e) {
+    } catch (e) {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> $e';

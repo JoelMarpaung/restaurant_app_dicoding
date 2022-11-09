@@ -12,9 +12,18 @@ class ServerError extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outlined, size: 150, color: Colors.white,),
-            const SizedBox(height: 10,),
-            Text(message, style: Theme.of(context).textTheme.headline6,),
+            const Icon(
+              Icons.error_outlined,
+              size: 150,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.headline6,
+            ),
           ],
         ),
       ),

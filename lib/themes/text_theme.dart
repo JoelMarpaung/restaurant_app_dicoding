@@ -26,7 +26,11 @@ final myTextTheme = TextTheme(
   bodyText2: GoogleFonts.mavenPro(
       fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.25),
   button: GoogleFonts.mavenPro(
-      fontSize: 15, fontWeight: FontWeight.w500, letterSpacing: 1.25, color: Colors.white,),
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 1.25,
+    color: Colors.white,
+  ),
   caption: GoogleFonts.mavenPro(
       fontSize: 13,
       fontWeight: FontWeight.w400,

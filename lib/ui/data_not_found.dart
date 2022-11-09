@@ -10,9 +10,18 @@ class DataNotFound extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Icon(Icons.search_off, size: 150, color: Colors.white,),
-            const SizedBox(height: 10,),
-            Text(message, style: Theme.of(context).textTheme.headline6,),
+            const Icon(
+              Icons.search_off,
+              size: 150,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              message,
+              style: Theme.of(context).textTheme.headline6,
+            ),
           ],
         ),
       ),

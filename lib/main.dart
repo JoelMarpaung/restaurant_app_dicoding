@@ -26,11 +26,9 @@ class MyApp extends StatelessWidget {
         SplashScreen.routeName: (context) => const SplashScreen(),
         RestaurantListPage.routeName: (context) => const RestaurantListPage(),
         RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-              id:
-                  ModalRoute.of(context)?.settings.arguments as String,
+              id: ModalRoute.of(context)?.settings.arguments as String,
             ),
       },
     );
   }
 }
-

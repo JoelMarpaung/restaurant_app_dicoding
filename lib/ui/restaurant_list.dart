@@ -60,15 +60,20 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                                       child: Row(
                                         children: [
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 '',
-                                                style: Theme.of(context).textTheme.subtitle1,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1,
                                               ),
                                               const IconDescription(
-                                                  icon: Icon(Icons.location_pin),
+                                                  icon:
+                                                      Icon(Icons.location_pin),
                                                   description: ''),
                                               const IconDescription(
                                                 icon: Icon(Icons.star_rate),
@@ -95,9 +100,13 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                             },
                           ),
                         ] else if (state.state == ResultState.noData) ...[
-                          DataNotFound(message: state.message,),
+                          DataNotFound(
+                            message: state.message,
+                          ),
                         ] else if (state.state == ResultState.error) ...[
-                          ServerError(message: state.message,),
+                          ServerError(
+                            message: state.message,
+                          ),
                         ] else ...[
                           const Center(
                             child: Material(
@@ -193,22 +202,24 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                 ),
               ),
               const SizedBox(width: 20),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    restaurant.name,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  IconDescription(
-                      icon: const Icon(Icons.location_pin),
-                      description: restaurant.city),
-                  IconDescription(
-                    icon: const Icon(Icons.star_rate),
-                    description: restaurant.rating.toString(),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      restaurant.name,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    IconDescription(
+                        icon: const Icon(Icons.location_pin),
+                        description: restaurant.city),
+                    IconDescription(
+                      icon: const Icon(Icons.star_rate),
+                      description: restaurant.rating.toString(),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

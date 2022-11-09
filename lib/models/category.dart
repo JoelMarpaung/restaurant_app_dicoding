@@ -8,9 +8,8 @@ class Category {
   final String name;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    name: json["name"],
-  );
-
+        name: json["name"],
+      );
 }
 
 List<Category> parseCategories(String? json) {
