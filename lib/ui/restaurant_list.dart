@@ -28,7 +28,6 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
             restaurantApiService: RestaurantApiService(),),
         child: Consumer<RestaurantProvider>(
           builder: (context, state, _) {
-            if ('a' == '') {}
             return Scaffold(
               body: Container(
                 height: double.infinity,
@@ -139,7 +138,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-            arguments: restaurant);
+            arguments: restaurant.id);
       },
       child: Card(
         color: Colors.blueGrey.shade50,
@@ -148,7 +147,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           child: Row(
             children: [
               Hero(
-                tag: urlApi + urlSmallImageRestaurant + restaurant.pictureId,
+                tag: restaurant.pictureId,
                 child: CachedNetworkImage(
                   width: 100,
                   imageUrl:

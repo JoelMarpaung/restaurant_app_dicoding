@@ -23,4 +23,13 @@ class RestaurantApiService {
       throw Exception('Failed to load');
     }
   }
+
+  Future<Restaurant> detailRestaurant(String id) async {
+    final response = await http.get(Uri.parse(urlApi + urlDetailRestaurant + id));
+    if (response.statusCode == 200) {
+      return Restaurant.fromJson(jsonDecode(response.body)['restaurant']);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
 }

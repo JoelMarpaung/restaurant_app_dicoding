@@ -8,18 +8,27 @@ enum ResultState { loading, noData, hasData, error }
 
 class RestaurantProvider extends ChangeNotifier {
   final RestaurantApiService restaurantApiService;
+  String? id;
 
-  RestaurantProvider({required this.restaurantApiService}) {
+  RestaurantProvider({required this.restaurantApiService, this.id}) {
+    if(id == null){
       fetchRestaurants('');
+    }else{
+      detailRestaurant(id!);
+    }
+
   }
 
   late List<Restaurant> _listRestaurants;
+  late Restaurant _restaurant;
   late ResultState _state;
   String _message = '';
 
   String get message => _message;
 
   List<Restaurant> get listRestaurants => _listRestaurants;
+
+  Restaurant get restaurant => _restaurant;
 
   ResultState get state => _state;
 
@@ -42,6 +51,28 @@ class RestaurantProvider extends ChangeNotifier {
         _state = ResultState.hasData;
         notifyListeners();
         return _listRestaurants = restaurants;
+      }
+    } catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      return _message = 'Error --> $e';
+    }
+  }
+
+  Future<dynamic> detailRestaurant(String id) async {
+    try {
+      _state = ResultState.loading;
+      notifyListeners();
+      Restaurant restaurant = await restaurantApiService.detailRestaurant(id);
+
+      if (restaurant == null) {
+        _state = ResultState.noData;
+        notifyListeners();
+        return _message = 'Empty Data';
+      } else {
+        _state = ResultState.hasData;
+        notifyListeners();
+        return _restaurant = restaurant;
       }
     } catch (e) {
       _state = ResultState.error;
