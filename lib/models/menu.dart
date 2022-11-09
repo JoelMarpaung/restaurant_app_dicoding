@@ -1,5 +1,5 @@
-import 'package:restaurant_app_dicoding/models/food.dart';
-import 'package:restaurant_app_dicoding/models/drink.dart';
+import '../models/food.dart';
+import '../models/drink.dart';
 
 class Menu {
   final List<Food> foods;

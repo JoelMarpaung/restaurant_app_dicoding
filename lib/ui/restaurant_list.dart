@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app_dicoding/constants/constants.dart';
-import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
-import 'package:restaurant_app_dicoding/models/restaurant.dart';
-import 'package:restaurant_app_dicoding/ui/data_not_found.dart';
-import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
-import 'package:restaurant_app_dicoding/ui/server_error.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../constants/constants.dart';
+import '../custom_widgets/icon_description.dart';
+import '../models/restaurant.dart';
+import '../ui/data_not_found.dart';
+import '../ui/restaurant_detail.dart';
+import '../ui/server_error.dart';
 import '../apis/restaurant_api_service.dart';
 import '../enums/provider_enum.dart';
 import '../providers/restaurant_provider.dart';

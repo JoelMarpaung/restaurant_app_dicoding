@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app_dicoding/constants/constants.dart';
-import 'package:restaurant_app_dicoding/custom_widgets/custom_alert.dart';
-import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
-import 'package:restaurant_app_dicoding/custom_widgets/list_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:restaurant_app_dicoding/models/customer_review.dart';
-import 'package:restaurant_app_dicoding/ui/server_error.dart';
 
+import '../constants/constants.dart';
+import '../custom_widgets/custom_alert.dart';
+import '../custom_widgets/icon_description.dart';
+import '../custom_widgets/list_menu.dart';
+import '../models/customer_review.dart';
+import '../ui/server_error.dart';
 import '../enums/alert_enum.dart';
 import '../enums/provider_enum.dart';
 import '../providers/restaurant_provider.dart';
 import '../apis/restaurant_api_service.dart';
 import '../providers/review_provider.dart';
-import 'data_not_found.dart';
+import '../ui/data_not_found.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';

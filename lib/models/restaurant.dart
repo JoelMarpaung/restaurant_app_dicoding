@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:restaurant_app_dicoding/models/category.dart';
-import 'package:restaurant_app_dicoding/models/customer_review.dart';
-import 'package:restaurant_app_dicoding/models/menu.dart';
+import '../models/category.dart';
+import '../models/customer_review.dart';
+import '../models/menu.dart';
 
 class Restaurant {
   Restaurant({

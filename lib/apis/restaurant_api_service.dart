@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_app_dicoding/constants/constants.dart';
-import 'package:restaurant_app_dicoding/models/restaurant.dart';
-import 'package:restaurant_app_dicoding/models/customer_review.dart';
+
+import '../constants/constants.dart';
+import '../models/restaurant.dart';
+import '../models/customer_review.dart';
 
 class RestaurantApiService {
 

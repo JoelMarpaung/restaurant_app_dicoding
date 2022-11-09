@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:restaurant_app_dicoding/apis/restaurant_api_service.dart';
 import 'package:flutter/material.dart';
 
+import '../apis/restaurant_api_service.dart';
 import '../enums/provider_enum.dart';
 import '../models/customer_review.dart';
 
