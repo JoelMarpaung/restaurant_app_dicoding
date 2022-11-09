@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:restaurant_app_dicoding/apis/restaurant_api_service.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
@@ -52,6 +53,10 @@ class RestaurantProvider extends ChangeNotifier {
         notifyListeners();
         return _listRestaurants = restaurants;
       }
+    } on SocketException catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      return _message = 'Error --> No Connection found';
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
@@ -74,7 +79,12 @@ class RestaurantProvider extends ChangeNotifier {
         notifyListeners();
         return _restaurant = restaurant;
       }
-    } catch (e) {
+    } on SocketException catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+      return _message = 'Error --> No Connection found';
+    }
+    catch (e) {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> $e';

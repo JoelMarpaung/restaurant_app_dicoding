@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app_dicoding/constants/constants.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
+import 'package:restaurant_app_dicoding/ui/data_not_found.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
+import 'package:restaurant_app_dicoding/ui/server_error.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../apis/restaurant_api_service.dart';
 import '../enums/provider_enum.dart';
@@ -21,12 +24,12 @@ class RestaurantListPage extends StatefulWidget {
 }
 
 class _RestaurantListPageState extends State<RestaurantListPage> {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantProvider>(
         create: (_) => RestaurantProvider(
-            restaurantApiService: RestaurantApiService(),),
+              restaurantApiService: RestaurantApiService(),
+            ),
         child: Consumer<RestaurantProvider>(
           builder: (context, state, _) {
             return Scaffold(
@@ -38,9 +41,50 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                     child: Column(
                       children: [
                         _header(context, state),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         if (state.state == ResultState.loading) ...[
-                          const Center(child: CircularProgressIndicator()),
+                          Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Colors.grey.shade500,
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 6,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  child: Card(
+                                    color: Colors.blueGrey.shade50,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '',
+                                                style: Theme.of(context).textTheme.subtitle1,
+                                              ),
+                                              const IconDescription(
+                                                  icon: Icon(Icons.location_pin),
+                                                  description: ''),
+                                              const IconDescription(
+                                                icon: Icon(Icons.star_rate),
+                                                description: '',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ] else if (state.state == ResultState.hasData) ...[
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -52,17 +96,9 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                             },
                           ),
                         ] else if (state.state == ResultState.noData) ...[
-                          Center(
-                            child: Material(
-                              child: Text(state.message),
-                            ),
-                          ),
+                          DataNotFound(message: state.message,),
                         ] else if (state.state == ResultState.error) ...[
-                          Center(
-                            child: Material(
-                              child: Text(state.message),
-                            ),
-                          ),
+                          ServerError(message: state.message,),
                         ] else ...[
                           const Center(
                             child: Material(
@@ -97,13 +133,12 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(25.0))),
             child: TextField(
-              onChanged: (value){
-                if(value!=''){
+              onChanged: (value) {
+                if (value != '') {
                   state.fetchRestaurants(value);
-                }else{
+                } else {
                   state.fetchRestaurants('');
                 }
-
               },
               decoration: const InputDecoration(
                 labelText: "Search",
@@ -182,5 +217,4 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
       ),
     );
   }
-
 }

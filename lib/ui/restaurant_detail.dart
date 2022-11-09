@@ -231,11 +231,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   }
 
   Widget _reviews(RestaurantProvider state) {
-    void showAlert(BuildContext context) {
+    void showAlert(BuildContext context, String title, String content, AlertEnum status) {
       showDialog(
           context: context,
           builder: (context) {
-            return const CustomAlert(title: successAlert, content: reviewSubmitted, status: AlertEnum.success);
+            return CustomAlert(title: title, content: content, status: status);
           });
     }
 
@@ -249,9 +249,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
             Duration.zero,
             () {
               if (stateReview.stateReview == ResultState.hasData) {
-                showAlert(context);
-                stateReview.stateReview = ResultState.noData;
+                showAlert(context, successAlert, reviewSubmitted, AlertEnum.success);
+              }else if(stateReview.stateReview == ResultState.error){
+                showAlert(context, errorAlert, stateReview.message, AlertEnum.error);
               }
+              stateReview.stateReview = ResultState.noData;
             },
           );
           return SingleChildScrollView(

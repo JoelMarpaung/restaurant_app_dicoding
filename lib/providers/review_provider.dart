@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:restaurant_app_dicoding/apis/restaurant_api_service.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,10 @@ class ReviewProvider extends ChangeNotifier {
         notifyListeners();
         return _listReviews = reviews;
       }
+    } on SocketException catch (e) {
+      stateReview = ResultState.error;
+      notifyListeners();
+      return _message = 'Error --> No Connection found';
     } catch (e) {
       stateReview = ResultState.error;
       notifyListeners();

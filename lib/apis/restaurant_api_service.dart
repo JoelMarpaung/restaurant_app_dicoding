@@ -48,7 +48,7 @@ class RestaurantApiService {
     if (response.statusCode == 201) {
       return parseCustomerReviews(response.body);
     } else {
-      throw Exception('Failed to create album.');
+      throw Exception('Failed to create Review.');
     }
   }
 
