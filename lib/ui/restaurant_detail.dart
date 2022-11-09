@@ -233,7 +233,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   Widget _reviews(RestaurantProvider state) {
     void showAlert(BuildContext context) {
       showDialog(
-          barrierDismissible: false,
           context: context,
           builder: (context) {
             return const CustomAlert(title: successAlert, content: reviewSubmitted, status: AlertEnum.success);
@@ -251,6 +250,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
             () {
               if (stateReview.stateReview == ResultState.hasData) {
                 showAlert(context);
+                stateReview.stateReview = ResultState.noData;
               }
             },
           );
@@ -291,35 +291,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
                           onPressed: () async {
                             if (_isFilledText(_nameController.text) &&
                                 _isFilledText(_reviewController.text)) {
-                              // stateReview.createReview(widget.id,
-                              //     _nameController.text, _reviewController.text);
-                              showAlert(context);
+                              stateReview.createReview(widget.id,
+                                  _nameController.text, _reviewController.text);
+                              _nameController.text = '';
+                              _reviewController.text = '';
                             } else if (!_isFilledText(_nameController.text)) {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "Error !!!",
-                                    ),
-                                    content: Text(
-                                      "Please input your name first",
-                                    ),
-                                  );
+                                  return const CustomAlert(title: errorAlert, content: nameMustFilled, status: AlertEnum.error);
                                 },
                               );
                             } else if (!_isFilledText(_reviewController.text)) {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "Error !!!",
-                                    ),
-                                    content: Text(
-                                      "Please input your review first",
-                                    ),
-                                  );
+                                  return const CustomAlert(title: errorAlert, content: reviewMustFilled, status: AlertEnum.error);
                                 },
                               );
                             }

@@ -22,4 +22,6 @@ const errorAlert = 'Error';
 const warningAlert = 'Warning';
 
 //contentDialog
-const reviewSubmitted = 'Review is successfully submitted';
+const reviewSubmitted = 'Review is successfully submitted.';
+const nameMustFilled = 'Please input your name first.';
+const reviewMustFilled = 'Please input your review first.';
