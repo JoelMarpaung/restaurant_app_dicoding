@@ -6,12 +6,14 @@ import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/list_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restaurant_app_dicoding/models/customer_review.dart';
+import 'package:restaurant_app_dicoding/ui/server_error.dart';
 
 import '../enums/alert_enum.dart';
 import '../enums/provider_enum.dart';
 import '../providers/restaurant_provider.dart';
 import '../apis/restaurant_api_service.dart';
 import '../providers/review_provider.dart';
+import 'data_not_found.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -162,15 +164,33 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
         ),
       );
     } else if (state.state == ResultState.noData) {
-      return Center(
-        child: Material(
-          child: Text(state.message),
+      return Scaffold(
+        appBar: AppBar(title: const Text(errorAlert)),
+        body: Container(
+          height: double.infinity,
+          decoration: const BoxDecoration(color: Colors.blueGrey),
+          child: SafeArea(
+            child: Center(
+              child: DataNotFound(
+                message: state.message,
+              ),
+            ),
+          ),
         ),
       );
     } else if (state.state == ResultState.error) {
-      return Center(
-        child: Material(
-          child: Text(state.message),
+      return Scaffold(
+        appBar: AppBar(title: const Text(errorAlert)),
+        body: Container(
+          height: double.infinity,
+          decoration: const BoxDecoration(color: Colors.blueGrey),
+          child: SafeArea(
+            child: Center(
+              child: ServerError(
+                message: state.message,
+              ),
+            ),
+          ),
         ),
       );
     } else {
@@ -231,7 +251,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   }
 
   Widget _reviews(RestaurantProvider state) {
-    void showAlert(BuildContext context, String title, String content, AlertEnum status) {
+    void showAlert(
+        BuildContext context, String title, String content, AlertEnum status) {
       showDialog(
           context: context,
           builder: (context) {
@@ -249,9 +270,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
             Duration.zero,
             () {
               if (stateReview.stateReview == ResultState.hasData) {
-                showAlert(context, successAlert, reviewSubmitted, AlertEnum.success);
-              }else if(stateReview.stateReview == ResultState.error){
-                showAlert(context, errorAlert, stateReview.message, AlertEnum.error);
+                showAlert(
+                    context, successAlert, reviewSubmitted, AlertEnum.success);
+              } else if (stateReview.stateReview == ResultState.error) {
+                showAlert(
+                    context, errorAlert, stateReview.message, AlertEnum.error);
               }
               stateReview.stateReview = ResultState.noData;
             },
@@ -301,14 +324,20 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const CustomAlert(title: errorAlert, content: nameMustFilled, status: AlertEnum.error);
+                                  return const CustomAlert(
+                                      title: errorAlert,
+                                      content: nameMustFilled,
+                                      status: AlertEnum.error);
                                 },
                               );
                             } else if (!_isFilledText(_reviewController.text)) {
                               showDialog(
                                 context: context,
                                 builder: (context) {
-                                  return const CustomAlert(title: errorAlert, content: reviewMustFilled, status: AlertEnum.error);
+                                  return const CustomAlert(
+                                      title: errorAlert,
+                                      content: reviewMustFilled,
+                                      status: AlertEnum.error);
                                 },
                               );
                             }
