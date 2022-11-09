@@ -15,3 +15,11 @@ const urlReviewRestaurant = 'review';
 const urlSmallImageRestaurant = 'images/small/';
 const urlMediumImageRestaurant = 'images/medium/';
 const urlLargeImageRestaurant = 'images/large/';
+
+//Alert
+const successAlert = 'Success';
+const errorAlert = 'Error';
+const warningAlert = 'Warning';
+
+//contentDialog
+const reviewSubmitted = 'Review is successfully submitted';

@@ -32,4 +32,24 @@ class RestaurantApiService {
       throw Exception('Failed to load');
     }
   }
+
+  Future<List<CustomerReview>> createReview(String id, String name, String review) async{
+    final response = await http.post(
+      Uri.parse(urlApi + urlReviewRestaurant),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'id' : id,
+        'name': name,
+        'review': review,
+      }),
+    );
+    if (response.statusCode == 201) {
+      return parseCustomerReviews(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
 }

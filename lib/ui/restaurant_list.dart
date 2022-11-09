@@ -8,6 +8,7 @@ import 'package:restaurant_app_dicoding/models/restaurant.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
 
 import '../apis/restaurant_api_service.dart';
+import '../enums/provider_enum.dart';
 import '../providers/restaurant_provider.dart';
 
 class RestaurantListPage extends StatefulWidget {

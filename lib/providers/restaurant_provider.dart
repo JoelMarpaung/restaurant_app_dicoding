@@ -4,7 +4,7 @@ import 'package:restaurant_app_dicoding/apis/restaurant_api_service.dart';
 import 'package:restaurant_app_dicoding/models/restaurant.dart';
 import 'package:flutter/material.dart';
 
-enum ResultState { loading, noData, hasData, error }
+import '../enums/provider_enum.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   final RestaurantApiService restaurantApiService;

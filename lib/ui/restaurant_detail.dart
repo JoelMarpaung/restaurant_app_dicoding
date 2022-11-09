@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app_dicoding/constants/constants.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/custom_alert.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/icon_description.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/list_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restaurant_app_dicoding/models/customer_review.dart';
 
+import '../enums/alert_enum.dart';
+import '../enums/provider_enum.dart';
 import '../providers/restaurant_provider.dart';
 import '../apis/restaurant_api_service.dart';
+import '../providers/review_provider.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -227,108 +231,140 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   }
 
   Widget _reviews(RestaurantProvider state) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    formReviewTitle,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      hintText: 'Input your name here...',
-                      labelText: 'Your name',
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  TextField(
-                    maxLines: 4,
-                    controller: _reviewController,
-                    decoration: const InputDecoration(
-                      hintText: 'Input your review here...',
-                      labelText: 'Your review',
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  ElevatedButton(
+    void showAlert(BuildContext context) {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return const CustomAlert(title: successAlert, content: reviewSubmitted, status: AlertEnum.success);
+          });
+    }
 
-                    onPressed: () {
-                      if (_isFilledText(_nameController.text) && _isFilledText(_reviewController.text)) {
-
-                      } else if (!_isFilledText(_nameController.text)) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                "Error !!!",
-
-                              ),
-                              content: Text(
-                                "Please input your name first",
-
-                                ),
+    return ChangeNotifierProvider<ReviewProvider>(
+      create: (_) => ReviewProvider(
+        restaurantApiService: RestaurantApiService(),
+      ),
+      child: Consumer<ReviewProvider>(
+        builder: (context, stateReview, _) {
+          Future.delayed(
+            Duration.zero,
+            () {
+              if (stateReview.stateReview == ResultState.hasData) {
+                showAlert(context);
+              }
+            },
+          );
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          formReviewTitle,
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                        const SizedBox(height: 10),
+                        TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Input your name here...',
+                            labelText: 'Your name',
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        TextField(
+                          maxLines: 4,
+                          controller: _reviewController,
+                          decoration: const InputDecoration(
+                            hintText: 'Input your review here...',
+                            labelText: 'Your review',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_isFilledText(_nameController.text) &&
+                                _isFilledText(_reviewController.text)) {
+                              // stateReview.createReview(widget.id,
+                              //     _nameController.text, _reviewController.text);
+                              showAlert(context);
+                            } else if (!_isFilledText(_nameController.text)) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Error !!!",
+                                    ),
+                                    content: Text(
+                                      "Please input your name first",
+                                    ),
+                                  );
+                                },
                               );
+                            } else if (!_isFilledText(_reviewController.text)) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Error !!!",
+                                    ),
+                                    content: Text(
+                                      "Please input your review first",
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           },
-                        );
-                      } else if (!_isFilledText(_reviewController.text)) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                "Error !!!",
-
-                              ),
-                              content: Text(
-                                "Please input your review first",
-
-                              ),
-                            );
+                          child: const Text('Submit'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          listReviewTitle,
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount:
+                              stateReview.stateReview == ResultState.hasData
+                                  ? stateReview.listReviews.length
+                                  : state.restaurant.customerReviews!.length,
+                          itemBuilder: (context, index) {
+                            return _buildReviewItem(
+                                context,
+                                stateReview.stateReview == ResultState.hasData
+                                    ? stateReview.listReviews[index]
+                                    : state.restaurant.customerReviews![index]);
                           },
-                        );
-                      }
-                    },
-                    child: const Text('Submit'),
-                  )
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    listReviewTitle,
-                    style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.restaurant.customerReviews!.length,
-                    itemBuilder: (context, index) {
-                      return _buildReviewItem(
-                          context, state.restaurant.customerReviews![index]);
-                    },
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -351,7 +387,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
         Row(
           children: [
             const Text('Review  : '),
-            Expanded(child: Text(customerReview.review),),
+            Expanded(
+              child: Text(customerReview.review),
+            ),
           ],
         ),
         const SizedBox(

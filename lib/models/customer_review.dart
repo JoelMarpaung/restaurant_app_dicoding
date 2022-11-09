@@ -29,6 +29,7 @@ List<CustomerReview> parseCustomerReviews(String? json) {
     return [];
   }
 
-  final List parsed = jsonDecode(json);
+  var data = jsonDecode(json);
+  final List parsed = data['customerReviews'] as List;
   return parsed.map((json) => CustomerReview.fromJson(json)).toList();
 }
