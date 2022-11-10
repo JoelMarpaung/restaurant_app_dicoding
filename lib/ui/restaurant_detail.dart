@@ -388,34 +388,34 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   }
 
   Widget _buildReviewItem(BuildContext context, CustomerReview customerReview) {
-    return Expanded(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Text('Nama    : '),
-              Text(customerReview.name),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Tanggal : '),
-              Text(customerReview.date),
-            ],
-          ),
-          Row(
-            children: [
-              const Text('Review  : '),
-              Expanded(
-                child: Text(customerReview.review),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            const Text('Nama    : '),
+            Expanded(
+              child: Text(customerReview.name),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            const Text('Tanggal : '),
+            Text(customerReview.date),
+          ],
+        ),
+        Row(
+          children: [
+            const Text('Review  : '),
+            Expanded(
+              child: Text(customerReview.review),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+      ],
     );
   }
 }
