@@ -53,7 +53,7 @@ class RestaurantProvider extends ChangeNotifier {
       if (query == '') {
         restaurants = await restaurantApiService.listRestaurants();
       } else {
-        restaurants = await restaurantApiService.searchRestaurants(query!);
+        restaurants = await restaurantApiService.searchRestaurants(query);
       }
 
       if (restaurants.isEmpty) {
@@ -65,7 +65,7 @@ class RestaurantProvider extends ChangeNotifier {
         notifyListeners();
         return _listRestaurants = restaurants;
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> No Connection found';
@@ -80,7 +80,7 @@ class RestaurantProvider extends ChangeNotifier {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      Restaurant restaurant = await restaurantApiService.detailRestaurant(id);
+      Restaurant? restaurant = await restaurantApiService.detailRestaurant(id);
 
       if (restaurant == null) {
         _state = ResultState.noData;
@@ -91,7 +91,7 @@ class RestaurantProvider extends ChangeNotifier {
         notifyListeners();
         return _restaurant = restaurant;
       }
-    } on SocketException catch (e) {
+    } on SocketException{
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> No Connection found';

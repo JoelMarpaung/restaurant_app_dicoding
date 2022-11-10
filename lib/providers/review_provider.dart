@@ -37,7 +37,7 @@ class ReviewProvider extends ChangeNotifier {
         notifyListeners();
         return _listReviews = reviews;
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       stateReview = ResultState.error;
       notifyListeners();
       return _message = 'Error --> No Connection found';

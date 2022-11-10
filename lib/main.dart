@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app_dicoding/models/restaurant.dart';
 import 'package:restaurant_app_dicoding/themes/text_theme.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_list.dart';
