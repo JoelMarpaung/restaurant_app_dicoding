@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app_dicoding/themes/text_theme.dart';
+import 'package:restaurant_app_dicoding/ui/homepage.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_detail.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_list.dart';
 import 'package:restaurant_app_dicoding/ui/splashscreen.dart';
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: SplashScreen.routeName,
+      initialRoute: HomePage.routeName,//SplashScreen.routeName,
       routes: {
+        HomePage.routeName: (context) => const HomePage(),
         SplashScreen.routeName: (context) => const SplashScreen(),
         RestaurantListPage.routeName: (context) => const RestaurantListPage(),
         RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(

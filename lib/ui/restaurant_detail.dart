@@ -66,6 +66,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
         builder: (context, state, _) {
           return Scaffold(
             body: Container(
+              padding: const EdgeInsets.all(5.0),
               decoration: const BoxDecoration(color: Colors.blueGrey),
               child: SafeArea(
                 child: getDetail(context, state),
@@ -88,19 +89,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
               pinned: true,
               expandedHeight: 300,
               flexibleSpace: FlexibleSpaceBar(
-                background: Hero(
-                  tag: state.restaurant.pictureId,
-                  child: CachedNetworkImage(
-                    width: 100,
-                    imageUrl: urlApi +
-                        urlMediumImageRestaurant +
-                        state.restaurant.pictureId,
-                    placeholder: (context, url) =>
-                        const LinearProgressIndicator(
-                            backgroundColor: Colors.white, color: Colors.grey),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
+                background: CachedNetworkImage(
+                  width: 100,
+                  imageUrl: urlApi +
+                      urlMediumImageRestaurant +
+                      state.restaurant.pictureId,
+                  placeholder: (context, url) =>
+                  const LinearProgressIndicator(
+                      backgroundColor: Colors.white, color: Colors.grey),
+                  errorWidget: (context, url, error) =>
+                  const Icon(Icons.error),
                 ),
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

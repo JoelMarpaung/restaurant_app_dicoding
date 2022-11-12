@@ -31,91 +31,90 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
             ),
         child: Consumer<RestaurantProvider>(
           builder: (context, state, _) {
-            return Scaffold(
-              body: Container(
-                height: double.infinity,
-                decoration: const BoxDecoration(color: Colors.blueGrey),
-                child: SafeArea(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _header(context, state),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        if (state.state == ResultState.loading) ...[
-                          Shimmer.fromColors(
-                            baseColor: Colors.white,
-                            highlightColor: Colors.grey.shade500,
-                            child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 6,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  child: Card(
-                                    color: Colors.blueGrey.shade50,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1,
-                                              ),
-                                              const IconDescription(
-                                                  icon:
-                                                      Icon(Icons.location_pin),
-                                                  description: ''),
-                                              const IconDescription(
-                                                icon: Icon(Icons.star_rate),
-                                                description: '',
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ] else if (state.state == ResultState.hasData) ...[
-                          ListView.builder(
+            return Container(
+              padding: const EdgeInsets.all(5.0),
+              height: double.infinity,
+              decoration: const BoxDecoration(color: Colors.blueGrey),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _header(context, state),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (state.state == ResultState.loading) ...[
+                        Shimmer.fromColors(
+                          baseColor: Colors.white,
+                          highlightColor: Colors.grey.shade500,
+                          child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: state.listRestaurants.length,
+                            itemCount: 6,
                             itemBuilder: (context, index) {
-                              return _buildRestaurantItem(
-                                  context, state.listRestaurants[index]);
+                              return InkWell(
+                                child: Card(
+                                  color: Colors.blueGrey.shade50,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                            const IconDescription(
+                                                icon:
+                                                Icon(Icons.location_pin),
+                                                description: ''),
+                                            const IconDescription(
+                                              icon: Icon(Icons.star_rate),
+                                              description: '',
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
                             },
                           ),
-                        ] else if (state.state == ResultState.noData) ...[
-                          DataNotFound(
-                            message: state.message,
+                        ),
+                      ] else if (state.state == ResultState.hasData) ...[
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.listRestaurants.length,
+                          itemBuilder: (context, index) {
+                            return _buildRestaurantItem(
+                                context, state.listRestaurants[index]);
+                          },
+                        ),
+                      ] else if (state.state == ResultState.noData) ...[
+                        DataNotFound(
+                          message: state.message,
+                        ),
+                      ] else if (state.state == ResultState.error) ...[
+                        ServerError(
+                          message: state.message,
+                        ),
+                      ] else ...[
+                        const Center(
+                          child: Material(
+                            child: Text(''),
                           ),
-                        ] else if (state.state == ResultState.error) ...[
-                          ServerError(
-                            message: state.message,
-                          ),
-                        ] else ...[
-                          const Center(
-                            child: Material(
-                              child: Text(''),
-                            ),
-                          ),
-                        ]
-                      ],
-                    ),
+                        ),
+                      ]
+                    ],
                   ),
                 ),
               ),
@@ -190,16 +189,13 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           padding: const EdgeInsets.all(10.0),
           child: Row(
             children: [
-              Hero(
-                tag: restaurant.pictureId,
-                child: CachedNetworkImage(
-                  width: 100,
-                  imageUrl:
-                      urlApi + urlSmallImageRestaurant + restaurant.pictureId,
-                  placeholder: (context, url) => const LinearProgressIndicator(
-                      backgroundColor: Colors.white, color: Colors.grey),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
+              CachedNetworkImage(
+                width: 100,
+                imageUrl:
+                urlApi + urlSmallImageRestaurant + restaurant.pictureId,
+                placeholder: (context, url) => const LinearProgressIndicator(
+                    backgroundColor: Colors.white, color: Colors.grey),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               const SizedBox(width: 20),
               Expanded(
