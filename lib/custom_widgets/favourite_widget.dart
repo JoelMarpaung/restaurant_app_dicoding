@@ -6,20 +6,28 @@ class FavouriteWidget extends StatelessWidget {
   final FavouriteProvider provider;
   final bool isFavourite;
   final String id;
-  const FavouriteWidget({Key? key, required this.isFavourite, required this.provider, required this.id}) : super(key: key);
+  const FavouriteWidget(
+      {Key? key,
+      required this.isFavourite,
+      required this.provider,
+      required this.id})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async{
-        if(isFavourite){
+      onTap: () async {
+        if (isFavourite) {
           provider.deleteFavourite(id);
-        }else{
+        } else {
           Favourite favourite = Favourite(id: id);
           await provider.addFavourite(favourite);
         }
       },
-        child: Center(child: iconFovourite(isFavourite)));
+      child: Center(
+        child: iconFovourite(isFavourite),
+      ),
+    );
   }
 }
 

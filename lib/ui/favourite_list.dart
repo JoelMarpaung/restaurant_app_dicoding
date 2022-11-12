@@ -1,10 +1,236 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/favourite_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
-class FavouriteListPage extends StatelessWidget {
+import '../constants/constants.dart';
+import '../custom_widgets/icon_description.dart';
+import '../models/restaurant.dart';
+import '../providers/favourite_provider.dart';
+import '../ui/data_not_found.dart';
+import '../ui/restaurant_detail.dart';
+import '../ui/server_error.dart';
+import '../apis/restaurant_api_service.dart';
+import '../enums/provider_enum.dart';
+import '../providers/restaurant_provider.dart';
+
+class FavouriteListPage extends StatefulWidget {
+  static const routeName = '/restaurant_list';
+
   const FavouriteListPage({Key? key}) : super(key: key);
 
   @override
+  State<FavouriteListPage> createState() => _FavouriteListPageState();
+}
+
+class _FavouriteListPageState extends State<FavouriteListPage> {
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return ChangeNotifierProvider<RestaurantProvider>(
+        create: (_) => RestaurantProvider(
+          restaurantApiService: RestaurantApiService(),
+        ),
+        child: Consumer<RestaurantProvider>(
+          builder: (context, state, _) {
+            return Container(
+              padding: const EdgeInsets.all(5.0),
+              height: double.infinity,
+              decoration: const BoxDecoration(color: Colors.blueGrey),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _header(context),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (state.state == ResultState.loading) ...[
+                        Shimmer.fromColors(
+                          baseColor: Colors.white,
+                          highlightColor: Colors.grey.shade500,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 6,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                child: Card(
+                                  color: Colors.blueGrey.shade50,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle1,
+                                            ),
+                                            const IconDescription(
+                                                icon: Icon(Icons.location_pin),
+                                                description: ''),
+                                            const IconDescription(
+                                              icon: Icon(Icons.star_rate),
+                                              description: '',
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ] else if (state.state == ResultState.hasData) ...[
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.listRestaurants.length,
+                          itemBuilder: (context, index) {
+                            return _buildRestaurantItem(
+                                context, state.listRestaurants[index]);
+                          },
+                        ),
+                      ] else if (state.state == ResultState.noData) ...[
+                        DataNotFound(
+                          message: state.message,
+                        ),
+                      ] else if (state.state == ResultState.error) ...[
+                        ServerError(
+                          message: state.message,
+                        ),
+                      ] else ...[
+                        const Center(
+                          child: Material(
+                            child: Text(''),
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ));
+  }
+
+  Widget _header(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(color: Colors.blueGrey),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                favouriteTitle,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                secondaryFavouriteTitle,
+                style: Theme.of(context).textTheme.headline6,
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
+    return Consumer<FavouriteProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder<bool>(
+            future: provider.isFavourite(restaurant.id),
+            builder: (context, snapshot) {
+              var isFavourite = snapshot.data ?? false;
+              if(isFavourite){
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, RestaurantDetailPage.routeName,
+                        arguments: restaurant.id);
+                  },
+                  child: Card(
+                    color: Colors.blueGrey.shade50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            width: 100,
+                            imageUrl: urlApi +
+                                urlSmallImageRestaurant +
+                                restaurant.pictureId,
+                            placeholder: (context, url) =>
+                            const LinearProgressIndicator(
+                                backgroundColor: Colors.white,
+                                color: Colors.grey),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  restaurant.name,
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        IconDescription(
+                                            icon: const Icon(Icons.location_pin),
+                                            description: restaurant.city),
+                                        IconDescription(
+                                          icon: const Icon(Icons.star_rate),
+                                          description:
+                                          restaurant.rating.toString(),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: FavouriteWidget(isFavourite: isFavourite, provider: provider, id: restaurant.id),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+              return Container();
+
+            });
+      },
+    );
   }
 }

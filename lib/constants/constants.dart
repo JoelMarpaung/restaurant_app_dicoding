@@ -5,6 +5,8 @@ const foodsTitle = 'Foods';
 const drinksTitle = 'Drinks';
 const formReviewTitle = 'Form Review';
 const listReviewTitle = 'List Reviews';
+const favouriteTitle = 'Favourite Restaurants';
+const secondaryFavouriteTitle = 'Here your favourite list';
 
 //Api
 const urlApi = 'https://restaurant-api.dicoding.dev/';
