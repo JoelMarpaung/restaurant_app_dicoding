@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app_dicoding/custom_widgets/favourite_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../constants/constants.dart';
 import '../custom_widgets/icon_description.dart';
 import '../models/restaurant.dart';
+import '../providers/favourite_provider.dart';
 import '../ui/data_not_found.dart';
 import '../ui/restaurant_detail.dart';
 import '../ui/server_error.dart';
@@ -61,9 +63,9 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                                       children: [
                                         Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '',
@@ -72,8 +74,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                                                   .subtitle1,
                                             ),
                                             const IconDescription(
-                                                icon:
-                                                Icon(Icons.location_pin),
+                                                icon: Icon(Icons.location_pin),
                                                 description: ''),
                                             const IconDescription(
                                               icon: Icon(Icons.star_rate),
@@ -178,49 +179,79 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   }
 
   Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-            arguments: restaurant.id);
-      },
-      child: Card(
-        color: Colors.blueGrey.shade50,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              CachedNetworkImage(
-                width: 100,
-                imageUrl:
-                urlApi + urlSmallImageRestaurant + restaurant.pictureId,
-                placeholder: (context, url) => const LinearProgressIndicator(
-                    backgroundColor: Colors.white, color: Colors.grey),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      restaurant.name,
-                      style: Theme.of(context).textTheme.subtitle1,
+    return Consumer<FavouriteProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder<bool>(
+            future: provider.isFavourite(restaurant.id),
+            builder: (context, snapshot) {
+              var isFavourite = snapshot.data ?? false;
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, RestaurantDetailPage.routeName,
+                      arguments: restaurant.id);
+                },
+                child: Card(
+                  color: Colors.blueGrey.shade50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        CachedNetworkImage(
+                          width: 100,
+                          imageUrl: urlApi +
+                              urlSmallImageRestaurant +
+                              restaurant.pictureId,
+                          placeholder: (context, url) =>
+                              const LinearProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                  color: Colors.grey),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                restaurant.name,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      IconDescription(
+                                          icon: const Icon(Icons.location_pin),
+                                          description: restaurant.city),
+                                      IconDescription(
+                                        icon: const Icon(Icons.star_rate),
+                                        description:
+                                            restaurant.rating.toString(),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: FavouriteWidget(isFavourite: isFavourite, provider: provider, id: restaurant.id),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    IconDescription(
-                        icon: const Icon(Icons.location_pin),
-                        description: restaurant.city),
-                    IconDescription(
-                      icon: const Icon(Icons.star_rate),
-                      description: restaurant.rating.toString(),
-                    ),
-                  ],
+                  ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
+              );
+            });
+      },
     );
   }
 }

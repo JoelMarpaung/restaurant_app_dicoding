@@ -4,9 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import '../constants/constants.dart';
 import '../custom_widgets/custom_alert.dart';
+import '../custom_widgets/favourite_widget.dart';
 import '../custom_widgets/icon_description.dart';
 import '../custom_widgets/list_menu.dart';
 import '../models/customer_review.dart';
+import '../providers/favourite_provider.dart';
 import '../ui/server_error.dart';
 import '../enums/alert_enum.dart';
 import '../enums/provider_enum.dart';
@@ -94,11 +96,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
                   imageUrl: urlApi +
                       urlMediumImageRestaurant +
                       state.restaurant.pictureId,
-                  placeholder: (context, url) =>
-                  const LinearProgressIndicator(
+                  placeholder: (context, url) => const LinearProgressIndicator(
                       backgroundColor: Colors.white, color: Colors.grey),
-                  errorWidget: (context, url, error) =>
-                  const Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -204,38 +204,49 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
     return SingleChildScrollView(
       child: Column(
         children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconDescription(
-                          icon: const Icon(Icons.location_pin),
-                          description: state.restaurant.city),
-                      IconDescription(
-                        icon: const Icon(Icons.star_rate),
-                        description: state.restaurant.rating.toString(),
+          Consumer<FavouriteProvider>(
+            builder: (context, provider, child) {
+              return FutureBuilder<bool>(
+                future: provider.isFavourite(state.restaurant.id),
+                builder: (context, snapshot) {
+                  var isFavourite = snapshot.data ?? false;
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconDescription(
+                                  icon: const Icon(Icons.location_pin),
+                                  description: state.restaurant.city),
+                              IconDescription(
+                                icon: const Icon(Icons.star_rate),
+                                description: state.restaurant.rating.toString(),
+                              ),
+                              FavouriteWidget(isFavourite: isFavourite, provider: provider, id: state.restaurant.id),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            state.restaurant.address!,
+                            style: Theme.of(context).textTheme.subtitle2,
+                            textAlign: TextAlign.left,
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            state.restaurant.description,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    state.restaurant.address!,
-                    style: Theme.of(context).textTheme.subtitle2,
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 15),
-                  Text(
-                    state.restaurant.description,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  )
-                ],
-              ),
-            ),
+                    ),
+                  );
+                },
+              );
+            },
           ),
           const SizedBox(height: 10),
           ListMenu(title: categoriesTitle, items: state.restaurant.categories!),
