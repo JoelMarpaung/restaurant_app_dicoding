@@ -74,15 +74,7 @@ class SettingListPage extends StatelessWidget {
                 Switch.adaptive(
                   value: provider.isDailyReminderActive,
                   onChanged: (value) async {
-                    provider.enableDailyReminder(value);
-                    final RestaurantApiService restaurantApiService = RestaurantApiService();
-                    List<Restaurant> restaurants = await restaurantApiService.listRestaurants();
-                    final _random = Random();
-                    var randomNumber = _random.nextInt(restaurants!.length);
-                    var resto = restaurants[randomNumber];
-                    final NotificationHelper notificationHelper = NotificationHelper();
-                    await notificationHelper
-                        .showNotification(flutterLocalNotificationsPlugin, resto);
+                    await provider.enableDailyReminder(value);
                   },
                 )
               ],
