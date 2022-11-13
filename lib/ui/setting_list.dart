@@ -1,13 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../apis/restaurant_api_service.dart';
 import '../constants/constants.dart';
-import '../main.dart';
-import '../models/restaurant.dart';
-import '../notifications/notification_helper.dart';
 import '../providers/setting_provider.dart';
 
 class SettingListPage extends StatelessWidget {

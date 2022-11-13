@@ -28,7 +28,6 @@ class BackgroundService {
   }
 
   static Future<void> callback() async {
-    print('Alarm fired!');
     final NotificationHelper notificationHelper = NotificationHelper();
     final RestaurantApiService restaurantApiService = RestaurantApiService();
     List<Restaurant> restaurants = await restaurantApiService.listRestaurants();

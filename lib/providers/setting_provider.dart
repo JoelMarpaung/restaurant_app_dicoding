@@ -25,7 +25,6 @@ class SettingProvider extends ChangeNotifier {
     preferencesHelper.setDailyReminder(value);
     _getDailyReminderPreferences();
     if (!_isDailyReminderActive) {
-      print('Daily Reminder Activated');
       notifyListeners();
       return await AndroidAlarmManager.periodic(
         const Duration(hours: 24),
@@ -36,7 +35,6 @@ class SettingProvider extends ChangeNotifier {
         wakeup: true,
       );
     } else {
-      print('Daily Reminder Canceled');
       notifyListeners();
       return await AndroidAlarmManager.cancel(1);
     }
