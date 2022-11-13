@@ -29,8 +29,8 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantProvider>(
         create: (_) => RestaurantProvider(
-          restaurantApiService: RestaurantApiService(),
-        ),
+              restaurantApiService: RestaurantApiService(),
+            ),
         child: Consumer<RestaurantProvider>(
           builder: (context, state, _) {
             return Container(
@@ -63,9 +63,9 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
                                       children: [
                                         Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '',
@@ -160,7 +160,7 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
             future: provider.isFavourite(restaurant.id),
             builder: (context, snapshot) {
               var isFavourite = snapshot.data ?? false;
-              if(isFavourite){
+              if (isFavourite) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, RestaurantDetailPage.routeName,
@@ -178,11 +178,11 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
                                 urlSmallImageRestaurant +
                                 restaurant.pictureId,
                             placeholder: (context, url) =>
-                            const LinearProgressIndicator(
-                                backgroundColor: Colors.white,
-                                color: Colors.grey),
+                                const LinearProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                    color: Colors.grey),
                             errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                                const Icon(Icons.error),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -196,25 +196,29 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         IconDescription(
-                                            icon: const Icon(Icons.location_pin),
+                                            icon:
+                                                const Icon(Icons.location_pin),
                                             description: restaurant.city),
                                         IconDescription(
                                           icon: const Icon(Icons.star_rate),
                                           description:
-                                          restaurant.rating.toString(),
+                                              restaurant.rating.toString(),
                                         ),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: FavouriteWidget(isFavourite: isFavourite, provider: provider, id: restaurant.id),
+                                      child: FavouriteWidget(
+                                          isFavourite: isFavourite,
+                                          provider: provider,
+                                          id: restaurant.id),
                                     ),
                                   ],
                                 ),
@@ -228,7 +232,6 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
                 );
               }
               return Container();
-
             });
       },
     );

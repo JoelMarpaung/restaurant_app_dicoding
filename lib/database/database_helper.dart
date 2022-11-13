@@ -1,4 +1,3 @@
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -40,7 +39,8 @@ class DatabaseHelper {
 
   Future<void> insertFavourite(Favourite fav) async {
     final Database db = await database;
-    await db.insert(_tableName, fav.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(_tableName, fav.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<dynamic> getFavouriteById(String id) async {
@@ -52,11 +52,9 @@ class DatabaseHelper {
         whereArgs: [id],
       );
       return results.first;
-    }
-    catch(_){
+    } catch (_) {
       return null;
     }
-
   }
 
   Future<void> deleteFavourite(String id) async {

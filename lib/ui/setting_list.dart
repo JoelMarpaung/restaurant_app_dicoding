@@ -64,7 +64,10 @@ class SettingListPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(dailyReminderTitle, style: Theme.of(context).textTheme.subtitle1,),
+                Text(
+                  dailyReminderTitle,
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
                 Switch.adaptive(
                   value: provider.isDailyReminderActive,
                   onChanged: (value) async {

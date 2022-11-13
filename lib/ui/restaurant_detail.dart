@@ -226,7 +226,10 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
                                 icon: const Icon(Icons.star_rate),
                                 description: state.restaurant.rating.toString(),
                               ),
-                              FavouriteWidget(isFavourite: isFavourite, provider: provider, id: state.restaurant.id),
+                              FavouriteWidget(
+                                  isFavourite: isFavourite,
+                                  provider: provider,
+                                  id: state.restaurant.id),
                             ],
                           ),
                           const SizedBox(height: 5),

@@ -22,17 +22,17 @@ import 'notifications/background_service.dart';
 import 'notifications/notification_helper.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final BackgroundService service = BackgroundService();
   service.initializeIsolate();
   if (Platform.isAndroid) {
     await AndroidAlarmManager.initialize();
   }
-final NotificationHelper notificationHelper = NotificationHelper();
-await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+  final NotificationHelper notificationHelper = NotificationHelper();
+  await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   runApp(const MyApp());
 }
 
@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: HomePage.routeName, //SplashScreen.routeName,
+        initialRoute: SplashScreen.routeName,
         routes: {
           HomePage.routeName: (context) => const HomePage(),
           SplashScreen.routeName: (context) => const SplashScreen(),

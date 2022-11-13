@@ -91,7 +91,7 @@ class RestaurantProvider extends ChangeNotifier {
         notifyListeners();
         return _restaurant = restaurant;
       }
-    } on SocketException{
+    } on SocketException {
       _state = ResultState.error;
       notifyListeners();
       return _message = 'Error --> No Connection found';

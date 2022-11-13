@@ -238,7 +238,10 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child: FavouriteWidget(isFavourite: isFavourite, provider: provider, id: restaurant.id),
+                                    child: FavouriteWidget(
+                                        isFavourite: isFavourite,
+                                        provider: provider,
+                                        id: restaurant.id),
                                   ),
                                 ],
                               ),

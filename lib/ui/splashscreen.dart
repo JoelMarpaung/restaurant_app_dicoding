@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushNamedAndRemoveUntil(
-          context, '/restaurant_list', (route) => false);
+          context, '/home_page', (route) => false);
     });
 
     return SizedBox(

@@ -24,10 +24,10 @@ class NotificationHelper {
         const AndroidInitializationSettings('app_icon');
 
     var initializationSettingsIOS = const DarwinInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        );
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
 
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -76,7 +76,7 @@ class NotificationHelper {
 
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
-          (String? payload) async {
+      (String? payload) async {
         Navigation.intentWithData(route, payload!);
       },
     );

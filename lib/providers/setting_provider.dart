@@ -15,13 +15,12 @@ class SettingProvider extends ChangeNotifier {
   bool _isDailyReminderActive = false;
   bool get isDailyReminderActive => _isDailyReminderActive;
 
-
   void _getDailyReminderPreferences() async {
     _isDailyReminderActive = await preferencesHelper.isDailyReminderActive;
     notifyListeners();
   }
 
-  Future<bool> enableDailyReminder(bool value) async{
+  Future<bool> enableDailyReminder(bool value) async {
     preferencesHelper.setDailyReminder(value);
     _getDailyReminderPreferences();
     if (!_isDailyReminderActive) {

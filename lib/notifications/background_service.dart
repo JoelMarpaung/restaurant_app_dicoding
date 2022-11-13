@@ -34,8 +34,8 @@ class BackgroundService {
     final random = Random();
     var randomNumber = random.nextInt(restaurants.length);
     var resto = restaurants[randomNumber];
-    await notificationHelper
-        .showNotification(flutterLocalNotificationsPlugin, resto);
+    await notificationHelper.showNotification(
+        flutterLocalNotificationsPlugin, resto);
 
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);

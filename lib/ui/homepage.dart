@@ -3,7 +3,6 @@ import 'package:restaurant_app_dicoding/ui/favourite_list.dart';
 import 'package:restaurant_app_dicoding/ui/restaurant_list.dart';
 import 'package:restaurant_app_dicoding/ui/setting_list.dart';
 
-
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +18,7 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
+
   static const List<Widget> _pages = <Widget>[
     RestaurantListPage(),
     FavouriteListPage(),
