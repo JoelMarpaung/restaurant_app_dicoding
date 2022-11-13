@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app_dicoding/database/preferences_helper.dart';
 import 'package:restaurant_app_dicoding/providers/favourite_provider.dart';
@@ -13,8 +14,13 @@ import 'package:restaurant_app_dicoding/ui/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/restaurant_api_service.dart';
-
-void main() {
+import 'notifications/notification_helper.dart';
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+final NotificationHelper notificationHelper = NotificationHelper();
+await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
   runApp(const MyApp());
 }
 

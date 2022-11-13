@@ -1,7 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../apis/restaurant_api_service.dart';
 import '../constants/constants.dart';
+import '../main.dart';
+import '../models/restaurant.dart';
+import '../notifications/notification_helper.dart';
 import '../providers/setting_provider.dart';
 
 class SettingListPage extends StatelessWidget {
@@ -69,6 +75,14 @@ class SettingListPage extends StatelessWidget {
                   value: provider.isDailyReminderActive,
                   onChanged: (value) async {
                     provider.enableDailyReminder(value);
+                    final RestaurantApiService restaurantApiService = RestaurantApiService();
+                    List<Restaurant> restaurants = await restaurantApiService.listRestaurants();
+                    final _random = Random();
+                    var randomNumber = _random.nextInt(restaurants!.length);
+                    var resto = restaurants[randomNumber];
+                    final NotificationHelper notificationHelper = NotificationHelper();
+                    await notificationHelper
+                        .showNotification(flutterLocalNotificationsPlugin, resto);
                   },
                 )
               ],
