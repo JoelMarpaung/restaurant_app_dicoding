@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:http/http.dart';
 import '../constants/constants.dart';
 import '../custom_widgets/custom_alert.dart';
 import '../custom_widgets/favourite_widget.dart';
@@ -61,7 +61,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantProvider>(
       create: (_) => RestaurantProvider(
-        restaurantApiService: RestaurantApiService(),
+        restaurantApiService: RestaurantApiService(Client()),
         id: widget.id,
       ),
       child: Consumer<RestaurantProvider>(
@@ -274,7 +274,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage>
 
     return ChangeNotifierProvider<ReviewProvider>(
       create: (_) => ReviewProvider(
-        restaurantApiService: RestaurantApiService(),
+        restaurantApiService: RestaurantApiService(Client()),
       ),
       child: Consumer<ReviewProvider>(
         builder: (context, stateReview, _) {

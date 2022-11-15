@@ -6,8 +6,12 @@ import '../models/restaurant.dart';
 import '../models/customer_review.dart';
 
 class RestaurantApiService {
+  final http.Client client;
+
+  RestaurantApiService(this.client);
+
   Future<List<Restaurant>> listRestaurants() async {
-    final response = await http.get(Uri.parse(urlApi + urlListRestaurant));
+    final response = await client.get(Uri.parse(urlApi + urlListRestaurant));
     if (response.statusCode == 200) {
       return parseRestaurants(response.body);
     } else {
@@ -17,7 +21,7 @@ class RestaurantApiService {
 
   Future<List<Restaurant>> searchRestaurants(String query) async {
     final response =
-        await http.get(Uri.parse(urlApi + urlSearchRestaurant + query));
+        await client.get(Uri.parse(urlApi + urlSearchRestaurant + query));
     if (response.statusCode == 200) {
       return parseRestaurants(response.body);
     } else {
@@ -28,7 +32,7 @@ class RestaurantApiService {
   Future<Restaurant?> detailRestaurant(String id) async {
     try {
       final response =
-          await http.get(Uri.parse(urlApi + urlDetailRestaurant + id));
+          await client.get(Uri.parse(urlApi + urlDetailRestaurant + id));
       if (response.statusCode == 200) {
         return Restaurant.fromJson(jsonDecode(response.body)['restaurant']);
       } else {
@@ -41,7 +45,7 @@ class RestaurantApiService {
 
   Future<List<CustomerReview>> createReview(
       String id, String name, String review) async {
-    final response = await http.post(
+    final response = await client.post(
       Uri.parse(urlApi + urlReviewRestaurant),
       headers: <String, String>{
         'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ void main() {
       when(client.get(Uri.parse('https://restaurant-api.dicoding.dev/list'))).thenAnswer(
               (_) async => http.Response(
               '{"error":false,"message":"success","count":20,"restaurants":[]}', 200));
-      RestaurantApiService api = RestaurantApiService();
+      RestaurantApiService api = RestaurantApiService(client);
       expect(await api.listRestaurants(), isA<List<Restaurant>>());
     });
 
@@ -29,10 +29,28 @@ void main() {
 
       // Use Mockito to return a successful response when it calls the
       // provided http.Client.
+      String json = '''{
+          "restaurant": {
+            "id": "",
+            "name": "",
+            "description": "",
+            "city": "",
+            "address": "",
+            "pictureId": "",
+            "categories": [],
+            "menus": {
+                "foods": [],
+                "drinks": []
+            },
+            "rating": 0,
+            "customerReviews": []
+          }
+        }
+      ''';
       when(client.get(Uri.parse('https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867')))
           .thenAnswer((_) async =>
-          http.Response('{"error":false,"message":"success","restaurant":{}}', 200));
-      RestaurantApiService api = RestaurantApiService();
+          http.Response(json, 200));
+      RestaurantApiService api = RestaurantApiService(client);
 
       expect(await api.detailRestaurant('rqdv5juczeskfw1e867'), isA<Restaurant>());
     });

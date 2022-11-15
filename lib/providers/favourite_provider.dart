@@ -20,7 +20,7 @@ class FavouriteProvider extends ChangeNotifier {
 
   Future<bool> isFavourite(String id) async {
     final favourite = await _dbHelper.getFavouriteById(id);
-    return favourite.isNotEmpty;
+    return favourite?.isNotEmpty ?? false;
   }
 
   void deleteFavourite(String id) async {

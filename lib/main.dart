@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -45,12 +45,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<RestaurantProvider>(
           create: (_) => RestaurantProvider(
-            restaurantApiService: RestaurantApiService(),
+            restaurantApiService: RestaurantApiService(Client()),
           ),
         ),
         ChangeNotifierProvider<ReviewProvider>(
           create: (_) => ReviewProvider(
-            restaurantApiService: RestaurantApiService(),
+            restaurantApiService: RestaurantApiService(Client()),
           ),
         ),
         ChangeNotifierProvider<FavouriteProvider>(

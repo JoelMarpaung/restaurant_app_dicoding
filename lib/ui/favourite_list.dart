@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app_dicoding/custom_widgets/favourite_widget.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:http/http.dart';
 import '../constants/constants.dart';
 import '../custom_widgets/icon_description.dart';
 import '../models/restaurant.dart';
@@ -29,7 +29,7 @@ class _FavouriteListPageState extends State<FavouriteListPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantProvider>(
         create: (_) => RestaurantProvider(
-              restaurantApiService: RestaurantApiService(),
+              restaurantApiService: RestaurantApiService(Client()),
             ),
         child: Consumer<RestaurantProvider>(
           builder: (context, state, _) {

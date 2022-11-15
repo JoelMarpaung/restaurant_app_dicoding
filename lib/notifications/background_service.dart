@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:isolate';
-
+import 'package:http/http.dart';
 import '../apis/restaurant_api_service.dart';
 import '../main.dart';
 import '../models/restaurant.dart';
@@ -29,7 +29,8 @@ class BackgroundService {
 
   static Future<void> callback() async {
     final NotificationHelper notificationHelper = NotificationHelper();
-    final RestaurantApiService restaurantApiService = RestaurantApiService();
+    final RestaurantApiService restaurantApiService =
+        RestaurantApiService(Client());
     List<Restaurant> restaurants = await restaurantApiService.listRestaurants();
     final random = Random();
     var randomNumber = random.nextInt(restaurants.length);
